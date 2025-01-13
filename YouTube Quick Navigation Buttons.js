@@ -29,7 +29,7 @@
 
     // Configuration constants
     const BUTTONS_CONFIG = {
-        home: { active: true, icon: 'home', path: '/', title: 'Home', shortcut: 'h' },
+        home: { active: true, icon: 'home', path: '/', title: 'Home', shortcut: 'ha' },
         subscriptions: { active: true, icon: 'subscriptions', path: '/feed/subscriptions', title: 'Subscriptions', shortcut: 's' },
         history: { active: true, icon: 'history', path: '/feed/history', title: 'History', shortcut: 'y' },
         playlists: { active: true, icon: 'playlist_play', path: '/feed/playlists', title: 'Playlists', shortcut: 'p' },
