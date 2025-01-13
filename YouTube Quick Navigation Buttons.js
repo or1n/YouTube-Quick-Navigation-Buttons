@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         YouTube Quick Navigation Buttons
-// @namespace
-// @version      1.2
+// @namespace    https://github.com/or1n/YouTube-Quick-Navigation-Buttons
+// @version      1.3
 // @description  Adds customizable quick navigation buttons to the YouTube header, with support for dark mode, keyboard shortcuts, and a dropdown menu for additional buttons.
 // @author       https://github.com/or1n
 // @license      MIT
-// @homepage
-// @supportURL
-// @updateURL
-// @downloadURL
+// @homepage     https://github.com/or1n/YouTube-Quick-Navigation-Buttons
+// @supportURL   https://github.com/or1n/YouTube-Quick-Navigation-Buttons/issues
+// @updateURL    https://github.com/or1n/YouTube-Quick-Navigation-Buttons/raw/main/YouTube%20Quick%20Navigation%20Buttons.js
+// @downloadURL  https://github.com/or1n/YouTube-Quick-Navigation-Buttons/raw/main/YouTube%20Quick%20Navigation%20Buttons.js
 // @match        *://*.youtube.com/*
 // @match        http://*.youtube.com/*
 // @match        http://youtube.com/*
@@ -21,40 +21,42 @@
 (function () {
     'use strict';
 
-    // Inject Font Awesome CSS
-    const fontAwesomeLink = document.createElement('link');
-    fontAwesomeLink.rel = 'stylesheet';
-    fontAwesomeLink.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css';
-    document.head.appendChild(fontAwesomeLink);
+    // Inject Material Icons CSS
+    const materialIconsLink = document.createElement('link');
+    materialIconsLink.rel = 'stylesheet';
+    materialIconsLink.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
+    document.head.appendChild(materialIconsLink);
 
     // Configuration constants
     const BUTTONS_CONFIG = {
-        home: { active: true, icon: 'fa-home', path: '/', title: 'Home', shortcut: 'h' },
-        subscriptions: { active: true, icon: 'fa-subscript', path: '/feed/subscriptions', title: 'Subscriptions', shortcut: 's' },
-        history: { active: true, icon: 'fa-history', path: '/feed/history', title: 'History', shortcut: 'y' },
-        playlists: { active: true, icon: 'fa-list', path: '/feed/playlists', title: 'Playlists', shortcut: 'p' },
-        library: { active: true, icon: 'fa-book', path: '/feed/library', title: 'Library', shortcut: 'l' },
-        watchLater: { active: true, icon: 'fa-clock', path: '/playlist?list=WL', title: 'Watch Later', shortcut: 'w' },
-        likedVideos: { active: true, icon: 'fa-heart', path: '/playlist?list=LL', title: 'Liked Videos', shortcut: 'v' },
-        trending: { active: true, icon: 'fa-fire', path: '/feed/trending', title: 'Trending', shortcut: 't' }
+        home: { active: true, icon: 'home', path: '/', title: 'Home', shortcut: 'h' },
+        subscriptions: { active: true, icon: 'subscriptions', path: '/feed/subscriptions', title: 'Subscriptions', shortcut: 's' },
+        history: { active: true, icon: 'history', path: '/feed/history', title: 'History', shortcut: 'y' },
+        playlists: { active: true, icon: 'playlist_play', path: '/feed/playlists', title: 'Playlists', shortcut: 'p' },
+        library: { active: true, icon: 'video_library', path: '/feed/library', title: 'Library', shortcut: 'l' },
+        watchLater: { active: true, icon: 'watch_later', path: '/playlist?list=WL', title: 'Watch Later', shortcut: 'w' },
+        likedVideos: { active: true, icon: 'thumb_up', path: '/playlist?list=LL', title: 'Liked Videos', shortcut: 'v' },
+        trending: { active: true, icon: 'trending_up', path: '/feed/trending', title: 'Trending', shortcut: 't' }
     };
 
-    const BUTTON_MARGIN = '2px';
-    const BUTTON_SIZE = '40px';
-    const BUTTON_COLOR_LIGHT = 'white';
+    const BUTTON_MARGIN = '8px';
+    const BUTTON_SIZE = '23px';
+    const BUTTON_COLOR_LIGHT = '#FFFFFF';
     const BUTTON_COLOR_DARK = '#909090';
     const BUTTON_HOVER_COLOR = '#ff0000'; // Change color on hover
     const BUTTON_CLICK_COLOR = '#00ff00'; // Change color on click
     const BUTTON_FONT_FAMILY = '"Roboto", sans-serif';
-    const BUTTON_FONT_SIZE = '15px';
     const BUTTON_FONT_WEIGHT = '500';
     const MAX_BUTTONS = 3;
-    const DROPDOWN_BUTTON_TEXT = 'More';
+    const DROPDOWN_BUTTON_ICON = 'expand_more'; // Use a downward arrow icon for the dropdown button
     const DROPDOWN_MIN_WIDTH = '160px';
-    const DROPDOWN_BACKGROUND_COLOR_LIGHT = 'white';
+    const DROPDOWN_BACKGROUND_COLOR_LIGHT = '#FFFFFF';
     const DROPDOWN_BACKGROUND_COLOR_DARK = '#181818';
     const DROPDOWN_Z_INDEX = 1;
     const INITIAL_SETUP_DELAY = 1000;
+    const DROPDOWN_BUTTON_FONT_SIZE = '10px';
+    const DROPDOWN_BUTTON_MARGIN = '0px'; // Add a constant margin for the dropdown button
+    const ENABLE_SHORTCUTS = true; // Add a constant to enable or disable shortcuts
 
     function isDarkMode() {
         return document.documentElement.getAttribute('dark') !== null;
@@ -67,7 +69,7 @@
     function createNavButton(icon, path, title, shortcut) {
         const button = document.createElement('a');
         button.href = `${getCurrentYouTubeDomain()}${path}`;
-        button.title = `${title} (CTRL+${shortcut.toUpperCase()})`;
+        button.title = ENABLE_SHORTCUTS ? `${title} (ALT+${shortcut.toUpperCase()})` : title;
         button.style.cssText = `
             display: inline-flex;
             align-items: center;
@@ -78,15 +80,19 @@
             color: ${isDarkMode() ? BUTTON_COLOR_DARK : BUTTON_COLOR_LIGHT};
             text-decoration: none;
             font-family: ${BUTTON_FONT_FAMILY};
-            font-size: ${BUTTON_FONT_SIZE};
             font-weight: ${BUTTON_FONT_WEIGHT};
             cursor: pointer;
             user-select: none;
             transition: color 0.2s, transform 0.2s;
         `;
 
-        const iconElement = document.createElement('i');
-        iconElement.className = `fas ${icon}`;
+        const iconElement = document.createElement('span');
+        iconElement.className = 'material-icons';
+        iconElement.textContent = icon;
+        iconElement.style.cssText = `
+            font-size: ${BUTTON_SIZE}; /* Ensure icon size matches button size */
+            height: ${BUTTON_SIZE};
+        `;
         button.appendChild(iconElement);
 
         button.addEventListener('mouseenter', () => {
@@ -108,11 +114,13 @@
         });
 
         // Add keyboard shortcut
-        document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key.toLowerCase() === shortcut) {
-                window.location.href = button.href;
-            }
-        });
+        if (ENABLE_SHORTCUTS) {
+            document.addEventListener('keydown', (e) => {
+                if (e.altKey && e.key.toLowerCase() === shortcut && !['INPUT', 'TEXTAREA', 'DIV'].includes(document.activeElement.tagName) && !document.activeElement.isContentEditable) {
+                    window.location.href = button.href;
+                }
+            });
+        }
 
         return button;
     }
@@ -146,10 +154,10 @@
         dropdownContainer.style.cssText = `
             position: relative;
             display: inline-block;
+            margin-left: ${DROPDOWN_BUTTON_MARGIN}; /* Apply the margin */
         `;
 
         const dropdownButton = document.createElement('button');
-        dropdownButton.textContent = DROPDOWN_BUTTON_TEXT;
         dropdownButton.style.cssText = `
             display: inline-flex;
             align-items: center;
@@ -162,9 +170,43 @@
             border: none;
             cursor: pointer;
             font-family: ${BUTTON_FONT_FAMILY};
-            font-size: ${BUTTON_FONT_SIZE};
+            font-size: ${DROPDOWN_BUTTON_FONT_SIZE};
             font-weight: ${BUTTON_FONT_WEIGHT};
+            transition: color 0.2s, transform 0.2s;
         `;
+
+        const dropdownIcon = document.createElement('span');
+        dropdownIcon.className = 'material-icons';
+        dropdownIcon.textContent = DROPDOWN_BUTTON_ICON;
+        dropdownButton.appendChild(dropdownIcon);
+
+        dropdownButton.addEventListener('mouseenter', () => {
+            if (dropdownContent.style.display !== 'block') {
+                dropdownButton.style.color = BUTTON_HOVER_COLOR;
+                dropdownButton.style.transform = 'scale(1.1)';
+            }
+        });
+
+        dropdownButton.addEventListener('mouseleave', () => {
+            if (dropdownContent.style.display !== 'block') {
+                dropdownButton.style.color = isDarkMode() ? BUTTON_COLOR_DARK : BUTTON_COLOR_LIGHT;
+                dropdownButton.style.transform = 'scale(1)';
+            }
+        });
+
+        dropdownButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            dropdownButton.style.color = BUTTON_CLICK_COLOR;
+            setTimeout(() => {
+                if (dropdownContent.style.display === 'block') {
+                    dropdownContent.style.display = 'none';
+                    dropdownButton.style.color = isDarkMode() ? BUTTON_COLOR_DARK : BUTTON_COLOR_LIGHT;
+                } else {
+                    dropdownContent.style.display = 'block';
+                    dropdownButton.style.color = BUTTON_HOVER_COLOR;
+                }
+            }, 200);
+        });
 
         const dropdownContent = document.createElement('div');
         dropdownContent.style.cssText = `
@@ -172,14 +214,11 @@
             position: absolute;
             background-color: ${isDarkMode() ? DROPDOWN_BACKGROUND_COLOR_DARK : DROPDOWN_BACKGROUND_COLOR_LIGHT};
             min-width: ${DROPDOWN_MIN_WIDTH};
-            z-index: ${DROPDOWN_Z_INDEX};
+            z-index: ${DROPDOWN_Z_INDEX + 1}; /* Ensure the dropdown is above other elements */
             white-space: nowrap;
+            top: 100%; /* Position the dropdown below the button */
+            left: 0;
         `;
-
-        dropdownButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-        });
 
         dropdownContainer.appendChild(dropdownButton);
         dropdownContainer.appendChild(dropdownContent);
