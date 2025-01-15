@@ -13,17 +13,33 @@ This UserScript adds customizable quick navigation buttons to the YouTube header
 - Visual feedback on button hover and click.
 - Configurable option to enable or disable shortcuts.
 
-## Without
+### Without the Script
+
+Without the script, the YouTube interface remains unchanged.
 
 ![YouTube-Quick-Navigation-Buttons(disabled)](https://github.com/user-attachments/assets/4f92446c-6f9e-4b27-aa6e-7f72307650d0)
 
-## With
+### With the Script
+
+With the script enabled, quick navigation buttons are added to the header.
 
 ![YouTube-Quick-Navigation-Buttons(enabled)](https://github.com/user-attachments/assets/9e6f517f-a25c-4a73-9aba-2da5f894b731)
 
+### Button Hover
+
+When you hover over a button, it turns red, becomes larger, and displays a tooltip with the button's name and shortcut.
+
 ![YouTube-Quick-Navigation-Buttons(enabled1)](https://github.com/user-attachments/assets/74600699-badc-4814-ba5a-5e78c74b24de)
 
+### Dropdown Menu
+
+Clicking the dropdown button reveals additional navigation buttons. The hovered button turns red and displays a tooltip.
+
 ![YouTube-Quick-Navigation-Buttons(enabled2)](https://github.com/user-attachments/assets/64dd1a42-14cf-4f76-97ad-28b5924b2666)
+
+### Dropdown Menu Hover
+
+Hovering over a button in the dropdown menu shows it in red and displays a tooltip.
 
 ![YouTube-Quick-Navigation-Buttons(enabled3)](https://github.com/user-attachments/assets/9fddfcd8-1e57-40ef-9b56-72dc8c237588)
 
@@ -88,3 +104,21 @@ const INITIAL_SETUP_DELAY = 1000; // Initial setup delay in milliseconds
 const DROPDOWN_BUTTON_FONT_SIZE = '10px'; // Font size for the dropdown button
 const DROPDOWN_BUTTON_MARGIN = '0px'; // Margin for the dropdown button
 ```
+
+## Usage Instructions
+
+1. **Enable/Disable the Script**: Use your UserScript manager extension to enable or disable the script as needed.
+2. **Adjust Settings**: Edit the `BUTTONS_CONFIG` object in the script to customize the navigation buttons.
+3. **View Navigation Buttons**: Navigate to YouTube and observe the quick navigation buttons in the header.
+
+## Contributing
+
+Contributions are welcome! If you have any suggestions, bug reports, or feature requests, please open an issue or submit a pull request on GitHub.
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://github.com/or1n/YouTube-Quick-Navigation-Buttons/blob/main/LICENSE) file for details.
+
+## Contact Information
+
+For support or questions, please contact [or1n](https://github.com/or1n) or open an issue on the [GitHub repository](https://github.com/or1n/YouTube-Quick-Navigation-Buttons/issues).
