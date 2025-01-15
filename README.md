@@ -32,7 +32,6 @@ When you hover over a button, it turns red, becomes larger, and displays a toolt
 ### Dropdown Menu
 
 ![YouTube-Quick-Navigation-Buttons(enabled2)](https://github.com/user-attachments/assets/64dd1a42-14cf-4f76-97ad-28b5924b2666)
-
 Clicking the dropdown button reveals additional navigation buttons. The hovered button turns red and displays a tooltip.
 
 ### Dropdown Menu Hover
