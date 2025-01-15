@@ -13,6 +13,20 @@ This UserScript adds customizable quick navigation buttons to the YouTube header
 - Visual feedback on button hover and click.
 - Configurable option to enable or disable shortcuts.
 
+## Without
+
+![YouTube-Quick-Navigation-Buttons(disabled)](https://github.com/user-attachments/assets/4f92446c-6f9e-4b27-aa6e-7f72307650d0)
+
+## With
+
+![YouTube-Quick-Navigation-Buttons(enabled)](https://github.com/user-attachments/assets/9e6f517f-a25c-4a73-9aba-2da5f894b731)
+
+![YouTube-Quick-Navigation-Buttons(enabled1)](https://github.com/user-attachments/assets/74600699-badc-4814-ba5a-5e78c74b24de)
+
+![YouTube-Quick-Navigation-Buttons(enabled2)](https://github.com/user-attachments/assets/64dd1a42-14cf-4f76-97ad-28b5924b2666)
+
+![YouTube-Quick-Navigation-Buttons(enabled3)](https://github.com/user-attachments/assets/9fddfcd8-1e57-40ef-9b56-72dc8c237588)
+
 ## Installation
 
 1. Install a UserScript manager extension for your browser (e.g., Violentmonkey, Tampermonkey, Greasemonkey).
